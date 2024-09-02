@@ -305,13 +305,15 @@ function encodeToRot13(str) {
       result += alph[upperOrLow][position];
       // console.log('alph[0][position]: ', alph[upperOrLow][position]);
       // console.log('result: ', result);
-    } else
-      if (position > 12) {
-        position -= 13;
-        result += alph[upperOrLow][position];
-        // console.log('alph[0][position]: ', alph[upperOrLow][position]);
-        // console.log('result: ', result);
-      }
+      return alph[upperOrLow][position];
+    }
+    if (position > 12) {
+      position -= 13;
+      result += alph[upperOrLow][position];
+      // console.log('alph[0][position]: ', alph[upperOrLow][position]);
+      // console.log('result: ', result);
+      return alph[upperOrLow][position];
+    }
     return alph[upperOrLow][position];
   });
   // console.log('result: ', result);
