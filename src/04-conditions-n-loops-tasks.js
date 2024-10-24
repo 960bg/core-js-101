@@ -27,8 +27,17 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+function getFizzBuzz(num) {
+  if (num % 3 === 0 && num % 5 === 0) {
+    return 'FizzBuzz';
+  }
+  if (num % 3 === 0) {
+    return 'Fizz';
+  }
+  if (num % 5 === 0) {
+    return 'Buzz';
+  }
+  return num;
 }
 
 
@@ -43,8 +52,23 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  const story = {
+    1: 1,
+  };
+  console.log('n = ', n);
+
+  return (function getfact() {
+    if (Object.hasOwn(story, n)) {
+      console.log('story[n]:', story[n]);
+      return story[n];
+    }
+    for (let i = 2; i <= n; i += 1) {
+      story[i] = story[i - 1] * i;
+    }
+    console.log('story => ', story);
+    return story[n];
+  }());
 }
 
 
@@ -60,8 +84,18 @@ function getFactorial(/* n */) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
+function getSumBetweenNumbers(n1, n2) {
+  const len = n2 - n1;
+  const tmp = new Array(len);
+  let nxt = n1;
+  let summ = n1;
+  tmp.fill(0);
+  tmp.map(() => {
+    nxt += 1;
+    summ += nxt;
+    return summ;
+  });
+  return summ;
 }
 
 
@@ -80,8 +114,12 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(...arr) {
+  arr.sort((a, b) => a - b);
+  if (arr[0] + arr[1] > arr[2]) {
+    return true;
+  }
+  return false;
 }
 
 
@@ -117,8 +155,37 @@ function isTriangle(/* a, b, c */) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  console.log('rect1 => ');
+  console.log(rect1);
+  console.log('rect2 => ');
+  console.log(rect2);
+  const x11 = rect1.left;
+  const x12 = rect1.left + rect1.width;
+  const y11 = rect1.top;
+  const y12 = rect1.top + rect1.height;
+
+  const x21 = rect2.left;
+  const x22 = rect2.left + rect2.width;
+  const y21 = rect2.top;
+  const y22 = rect2.top + rect2.height;
+
+
+  if ((x11 <= x21
+    && x21 <= x12
+    && y11 <= y21
+    && y21 <= y12)
+    || (x21 <= x11
+      && x11 <= x22
+      && y21 < y11
+      && y11 < y22)) {
+    console.log(true);
+
+    return true;
+  }
+  console.log(false);
+
+  return false;
 }
 
 
@@ -148,8 +215,16 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  const [x, y] = [point.x, point.y];
+  const r = circle.radius;
+  const [cx, cy] = [circle.center.x, circle.center.y];
+
+
+  if ((cx - x) ** 2 + (cy - y) ** 2 < r ** 2) {
+    return true;
+  }
+  return false;
 }
 
 
@@ -164,8 +239,33 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  const s = str.split('');
+  console.log('s => ', s);
+
+  const chars = {};
+
+  const res = s.reduce((acc, curr) => {
+    if (chars[curr]) {
+      chars[curr] += 1;
+      return acc;
+    }
+    chars[curr] = 1;
+    acc.push(curr);
+    return acc;
+  }, []);
+
+  console.log('res:', res);
+
+  for (let index = 0; index < res.length; index += 1) {
+    if (chars[res[index]] === 1) {
+      console.log('result: ', res[index]);
+      return res[index];
+    }
+  }
+  console.log('result: ', null);
+
+  return null;
 }
 
 
@@ -191,8 +291,19 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let start = a;
+  let end = b;
+  const startIncluded = isStartIncluded ? '[' : '(';
+  const endIncluded = isEndIncluded ? ']' : ')';
+  if (start > end) {
+    [start, end] = [end, start];
+  }
+  console.log('a, b => ', a, b);
+  console.log('a, b => ', start, end);
+  console.log(`${startIncluded}${start}, ${end}${endIncluded}`);
+
+  return `${startIncluded}${start}, ${end}${endIncluded}`;
 }
 
 
@@ -208,8 +319,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('').reverse().join('');
 }
 
 
@@ -225,8 +336,8 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return +String(num).split('').reverse().join('');
 }
 
 
@@ -236,7 +347,7 @@ function reverseInteger(/* num */) {
  *
  * See algorithm here : https://en.wikipedia.org/wiki/Luhn_algorithm
  *
- * @param {number} cnn
+ * @param {number} ccn
  * @return {boolean}
  *
  * @example:
@@ -250,8 +361,36 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+
+function isCreditCardNumber(ccn) {
+  const controlNum = ccn - Math.trunc(ccn / 10) * 10;
+  // console.log('cnn: ', ccn);
+  // console.log('controlNum: ', controlNum);
+  const masNums = String(ccn)
+    .split('')
+    .splice(0, String(ccn).length - 1)
+    .reverse()
+    .map((v, i) => {
+      if (i % 2 === 0) {
+        const num = Number(v) * 2;
+        // console.log('Number(v) * 2: ', num);
+
+        if (num > 9) {
+          return (Math.trunc(num / 10) % 10) + (num % 10);
+        }
+        return num;
+      }
+      return Number(v);
+    })
+    .reduce((acc, curr) => acc + curr, 0);
+
+  const calcNum = (10 - (masNums % 10)) % 10;
+  // console.log('calcNum: ', calcNum);
+  // console.log('masNums: ', masNums);
+  if (controlNum === calcNum) {
+    return true;
+  }
+  return false;
 }
 
 /**
