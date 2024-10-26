@@ -407,8 +407,18 @@ function isCreditCardNumber(ccn) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  // console.log('num: ', num);
+  let n = num;
+  let c = 0;
+  while (n > 9 && c < 10) {
+    c += 1;
+    // console.log('n: ', n);
+    n = String(n).split('').reduce((acc, curr) => acc + Number(curr), 0);
+    // console.log('n = ', n);
+  }
+  // console.log('n: ', n);
+  return n;
 }
 
 
@@ -433,8 +443,45 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  console.log('str: ', str);
+  // массив возможных скобок
+  const findBrackets = [];
+  const bracketsStart = ['[', '{', '(', '<'];
+  const bracketsEnd = [']', '}', ')', '>'];
+
+  if (str.length === 0) { return true; }
+  if (bracketsEnd.includes(str[0])) { return false; }
+
+  for (let i = 0; i < str.length; i += 1) {
+    // если скобка откр то добавить в массив
+    if (bracketsStart.includes(str[i])) {
+      findBrackets.push(str[i]);
+      console.log('findBrackets.push(str[i]): ', str[i]);
+    }
+    //  если скобка закр то проверить какая была посл откр скобка и
+    //  если того же типа то удалить из массива скобок посл эл-т т.е.
+    //  посл найденную откр скобку
+    if (bracketsEnd.includes(str[i])) {
+      // определить какой тип у закр скобки должен быть:
+      const lastOpenBr = findBrackets[findBrackets.length - 1];
+      const lastIndexBr = bracketsStart.indexOf(lastOpenBr);
+      const lastCloseBr = bracketsEnd[lastIndexBr];
+      if (str[i] === lastCloseBr) {
+        findBrackets.pop();
+      } else {
+        return false;
+      }
+    }
+  }
+
+  // все скобки нашли пару и были удалены из массива
+  if (findBrackets.length === 0) {
+    console.log(true);
+    return true;
+  }
+  console.log(false);
+  return false;
 }
 
 
@@ -457,9 +504,24 @@ function isBracketsBalanced(/* str */) {
  *    365, 3  => '111112'
  *    365, 4  => '11231'
  *    365, 10 => '365'
+ *  5*10^0+6*10^1+3*10^2
+ *
+ * 19/2 = 9 с остатком 1
+9/2 = 4 c остатком 1
+4/2 = 2 без остатка 0
+2/2 = 1 без остатка 0
+1/2 = 0 с остатком 1
+В результате получаем число 19 в двоичной записи: 10011.
+ *
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  let chastnoe = num;
+  const ost = [];
+  while (chastnoe !== 0) {
+    ost.push(chastnoe % n);
+    chastnoe = Math.trunc(chastnoe / n);
+  }
+  return ost.reverse().join('');
 }
 
 
@@ -475,8 +537,49 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  console.log('pathes', pathes);
+  const firstSimb = [];
+  if (pathes.length === 0) { return ''; }
+  if (pathes.length === 1) { return pathes[0]; }
+
+  for (let i = 0; i < pathes.length; i += 1) {
+    const path = pathes[i];
+    if (!firstSimb.includes(path[0])) {
+      firstSimb.push(path[0]);
+    }
+    if (firstSimb.length > 1) {
+      return '';
+    }
+  }
+
+  const separator = firstSimb[0];
+  let str = '';
+  let tempStr = '';
+  for (let i = 1; i < pathes.length; i += 1) {
+    const path0 = pathes[0];
+    const path1 = pathes[i];
+    str = '';
+    tempStr = '';
+    for (let j = 0; j < path1.length; j += 1) {
+      if (path0[j] === path1[j]) {
+        tempStr += path0[j];
+        if (path0[j] === separator) {
+          str += tempStr;
+          tempStr = '';
+        }
+      } else {
+        j = path1.length;
+      }
+    }
+  }
+
+  console.log('str: ', str);
+
+  const mas = pathes[0].split(separator);
+  console.log('mas: ', mas);
+
+  return str;
 }
 
 
@@ -498,8 +601,38 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+function getMatrixProduct(m1, m2) {
+  // Матрицы  A   и  B могут быть перемножены,
+  //  если они совместимы в том смысле,
+  //  что число столбцов матрицы  A  равно числу строк матрицы B
+  if (m1[0].length !== m2.length) {
+    console.log(`Матрицы не быть перемножены.
+       число столбцов матрицы  A  не равно числу строк матрицы B`);
+  }
+  console.log('m1: ', m1);
+  console.log('m2: ', m2);
+
+  const sizeRow = m1.length;
+  const sizeCol = m2[0].length;
+  const nth = m1[0].length;
+
+  const mRes = [];
+
+  for (let cRow = 0; cRow < sizeRow; cRow += 1) {
+    // добавить строку в рез
+    mRes.push([]);
+    for (let cCol = 0; cCol < sizeCol; cCol += 1) {
+      let res = 0;
+      for (let c = 0; c < nth; c += 1) {
+        res += m1[cRow][c] * m2[c][cCol];
+      }
+      mRes[cRow].push(res);
+    }
+  }
+
+  console.log('mRes:', mRes);
+
+  return mRes;
 }
 
 
@@ -533,10 +666,109 @@ function getMatrixProduct(/* m1, m2 */) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
-}
 
+function evaluateTicTacToePosition(m) {
+  // console.log('position', m);
+  const diag1 = [];
+  const diag2 = [];
+  for (let row = 0; row < m.length; row += 1) {
+    // в строку
+    let row1 = [];
+    let col1 = [];
+    for (let col = 0; col < m[row].length; col += 1) {
+      // заполняем строку
+      if (row1.length !== 0) {
+        if (row1[0] === m[row][col]) {
+          row1.push(m[row][col]);
+        }
+      }
+      if (row1.length === 0 && m[row][col] !== undefined) {
+        row1.push(m[row][col]);
+      }
+
+      // проверка на окончание итерации по строке
+      if (col === m[row].length - 1) {
+        // в строку
+        if (row1.length === 3) {
+          // console.log('row1: ', row1);
+          return row1[0];
+        }
+        row1 = [];
+      }
+
+      // заполняем  столбец
+      if (col1.length !== 0) {
+        if (col1[0] === m[col][row]) {
+          col1.push(m[col][row]);
+        }
+      }
+      if (col1.length === 0 && m[col][row] !== undefined) {
+        col1.push(m[col][row]);
+      }
+
+      // проверка на окончание итерации по столбцу
+      if (col === m[row].length - 1) {
+        // в строку
+        if (col1.length === 3) {
+          // console.log('col1: ', col1);
+          return col1[0];
+        }
+        col1 = [];
+      }
+
+      // заполняем диагональ 1
+      if (col === row) {
+        // console.log('заполняем диагональ 1: col === row');
+        if (diag1.length !== 0) {
+          if (diag1[0] === m[row][col]) {
+            // console.log('заполняем диагональ 1: ', m[row][col]);
+            // console.log('заполняем диагональ 1: diag1:', diag1);
+            diag1.push(m[row][col]);
+          }
+        }
+        if (diag1.length === 0 && m[row][col] !== undefined) {
+          // console.log('заполняем диагональ 1: diag1.length === 0');
+          diag1.push(m[row][col]);
+        }
+      }
+
+      // console.log('diag1.length = ', diag1.length);
+      // console.log('diag1 = ', diag1);
+
+      // проверка на окончание итерации по диагонали1
+      // в диагонали
+      if (diag1.length === 3) {
+        // console.log('diag1: ', diag1);
+        return diag1[0];
+      }
+
+      // заполняем диагональ 2
+      const colDiag = m[row].length - 1 - col;
+      if (row === colDiag) {
+        // console.log('заполняем диагональ 2: row === colDiag');
+        if (diag2.length !== 0) {
+          if (diag2[0] === m[row][col]) {
+            // console.log('заполняем диагональ 2: ', m[row][col]);
+            diag2.push(m[row][col]);
+            // console.log('заполняем диагональ 2: diag2.length === 0', diag2);
+          }
+        }
+        if (diag2.length === 0 && m[row][colDiag] !== undefined) {
+          diag2.push(m[row][col]);
+          // console.log('заполняем диагональ 2: diag2.length === 0', diag2);
+        }
+      }
+
+      // проверка на окончание итерации по диагонали2
+      // в диагонали
+      if (diag2.length === 3) {
+        console.log('diag2: ', diag2);
+        return diag2[0];
+      }
+    }
+  }
+  return undefined;
+}
 
 module.exports = {
   getFizzBuzz,
