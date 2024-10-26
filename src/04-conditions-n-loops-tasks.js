@@ -56,17 +56,14 @@ function getFactorial(n) {
   const story = {
     1: 1,
   };
-  console.log('n = ', n);
 
   return (function getfact() {
     if (Object.hasOwn(story, n)) {
-      console.log('story[n]:', story[n]);
       return story[n];
     }
     for (let i = 2; i <= n; i += 1) {
       story[i] = story[i - 1] * i;
     }
-    console.log('story => ', story);
     return story[n];
   }());
 }
@@ -156,10 +153,10 @@ function isTriangle(...arr) {
  *
  */
 function doRectanglesOverlap(rect1, rect2) {
-  console.log('rect1 => ');
-  console.log(rect1);
-  console.log('rect2 => ');
-  console.log(rect2);
+  // console.log('rect1 => ');
+  // console.log(rect1);
+  // console.log('rect2 => ');
+  // console.log(rect2);
   const x11 = rect1.left;
   const x12 = rect1.left + rect1.width;
   const y11 = rect1.top;
@@ -179,11 +176,11 @@ function doRectanglesOverlap(rect1, rect2) {
       && x11 <= x22
       && y21 < y11
       && y11 < y22)) {
-    console.log(true);
+    // console.log(true);
 
     return true;
   }
-  console.log(false);
+  // console.log(false);
 
   return false;
 }
@@ -241,7 +238,7 @@ function isInsideCircle(circle, point) {
  */
 function findFirstSingleChar(str) {
   const s = str.split('');
-  console.log('s => ', s);
+  // console.log('s => ', s);
 
   const chars = {};
 
@@ -255,15 +252,15 @@ function findFirstSingleChar(str) {
     return acc;
   }, []);
 
-  console.log('res:', res);
+  // console.log('res:', res);
 
   for (let index = 0; index < res.length; index += 1) {
     if (chars[res[index]] === 1) {
-      console.log('result: ', res[index]);
+      // console.log('result: ', res[index]);
       return res[index];
     }
   }
-  console.log('result: ', null);
+  // console.log('result: ', null);
 
   return null;
 }
@@ -299,9 +296,9 @@ function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
   if (start > end) {
     [start, end] = [end, start];
   }
-  console.log('a, b => ', a, b);
-  console.log('a, b => ', start, end);
-  console.log(`${startIncluded}${start}, ${end}${endIncluded}`);
+  // console.log('a, b => ', a, b);
+  // console.log('a, b => ', start, end);
+  // console.log(`${startIncluded}${start}, ${end}${endIncluded}`);
 
   return `${startIncluded}${start}, ${end}${endIncluded}`;
 }
@@ -444,7 +441,7 @@ function getDigitalRoot(num) {
  *   '{[(<{[]}>)]}' = true
  */
 function isBracketsBalanced(str) {
-  console.log('str: ', str);
+  // console.log('str: ', str);
   // массив возможных скобок
   const findBrackets = [];
   const bracketsStart = ['[', '{', '(', '<'];
@@ -457,7 +454,7 @@ function isBracketsBalanced(str) {
     // если скобка откр то добавить в массив
     if (bracketsStart.includes(str[i])) {
       findBrackets.push(str[i]);
-      console.log('findBrackets.push(str[i]): ', str[i]);
+      // console.log('findBrackets.push(str[i]): ', str[i]);
     }
     //  если скобка закр то проверить какая была посл откр скобка и
     //  если того же типа то удалить из массива скобок посл эл-т т.е.
@@ -477,10 +474,10 @@ function isBracketsBalanced(str) {
 
   // все скобки нашли пару и были удалены из массива
   if (findBrackets.length === 0) {
-    console.log(true);
+    // console.log(true);
     return true;
   }
-  console.log(false);
+  // console.log(false);
   return false;
 }
 
@@ -538,7 +535,7 @@ function toNaryString(num, n) {
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
 function getCommonDirectoryPath(pathes) {
-  console.log('pathes', pathes);
+  // console.log('pathes', pathes);
   const firstSimb = [];
   if (pathes.length === 0) { return ''; }
   if (pathes.length === 1) { return pathes[0]; }
@@ -574,10 +571,10 @@ function getCommonDirectoryPath(pathes) {
     }
   }
 
-  console.log('str: ', str);
+  // console.log('str: ', str);
 
-  const mas = pathes[0].split(separator);
-  console.log('mas: ', mas);
+  // const mas = pathes[0].split(separator);
+  // console.log('mas: ', mas);
 
   return str;
 }
@@ -606,11 +603,11 @@ function getMatrixProduct(m1, m2) {
   //  если они совместимы в том смысле,
   //  что число столбцов матрицы  A  равно числу строк матрицы B
   if (m1[0].length !== m2.length) {
-    console.log(`Матрицы не быть перемножены.
-       число столбцов матрицы  A  не равно числу строк матрицы B`);
+    // console.log(`Матрицы не быть перемножены.
+    //    число столбцов матрицы  A  не равно числу строк матрицы B`);
   }
-  console.log('m1: ', m1);
-  console.log('m2: ', m2);
+  // console.log('m1: ', m1);
+  // console.log('m2: ', m2);
 
   const sizeRow = m1.length;
   const sizeCol = m2[0].length;
@@ -630,7 +627,7 @@ function getMatrixProduct(m1, m2) {
     }
   }
 
-  console.log('mRes:', mRes);
+  // console.log('mRes:', mRes);
 
   return mRes;
 }
@@ -762,7 +759,7 @@ function evaluateTicTacToePosition(m) {
       // проверка на окончание итерации по диагонали2
       // в диагонали
       if (diag2.length === 3) {
-        console.log('diag2: ', diag2);
+        // console.log('diag2: ', diag2);
         return diag2[0];
       }
     }
